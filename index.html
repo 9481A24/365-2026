@@ -1,165 +1,133 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>DINHEIRO DO ZERO — Livro Interativo</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 8px;
-    }
-    h1, h2, h3 {
-      color: #222;
-    }
-    .editable {
-      border: 1px dashed #ccc;
-      padding: 10px;
-      margin: 10px 0;
-      min-height: 40px;
-    }
-    button {
-      padding: 10px 16px;
-      margin: 10px 5px 0 0;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .save {
-      background: #2ecc71;
-      color: #fff;
-    }
-    .add {
-      background: #3498db;
-      color: #fff;
-    }
-    .chapter {
-      margin-top: 30px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Capítulo 10 — 365 Páginas</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#e6e6e6;
+  padding:20px;
+}
+.container{
+  background:#fff;
+  max-width:900px;
+  margin:auto;
+  padding:25px;
+  border-radius:8px;
+}
+.controls{
+  margin-bottom:15px;
+}
+button{
+  padding:10px 15px;
+  margin-right:6px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.save{background:#2ecc71;color:#fff;}
+.print{background:#e67e22;color:#fff;}
+.nav{background:#3498db;color:#fff;}
+
+.page{
+  border:2px solid #ccc;
+  padding:15px;
+  min-height:260px;
+  border-radius:8px;
+}
+.page.odd{background:#f9f9ff;}
+.page.even{background:#f1fff4;}
+
+.page-title{
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+/* 🔑 Evita texto ir pros lados */
+ol, li{
+  max-width:100%;
+  white-space:pre-wrap;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>DINHEIRO DO ZERO</h1>
-    <h3>Guia simples para o homem que quer sair do aperto e criar base financeira</h3>
 
-    <p class="editable" contenteditable="true">
-      Autor: IA (feito para você)<br>
-      Nível: Início absoluto (0)<br>
-      Objetivo: organizar a vida financeira antes de investir
-    </p>
+<div class="container">
+<h1>CAPÍTULO 10 — CONCLUSÃO (365 PÁGINAS)</h1>
 
-    <div id="book">
+<div class="controls">
+  <button class="save" onclick="salvar()">Salvar</button>
+  <button class="print" onclick="window.print()">Imprimir</button>
+  <button class="nav" onclick="anterior()">◀ Página</button>
+  <button class="nav" onclick="proxima()">Página ▶</button>
+</div>
 
-      <div class="chapter">
-        <h2>CAPÍTULO 1 — Começando do Zero</h2>
-        <p class="editable" contenteditable="true">
-          Aqui começa sua jornada financeira. Mesmo sem dinheiro, você já tem o mais importante: decisão.
-        </p>
-      </div>
+<div id="pagina"></div>
+</div>
 
-      <div class="chapter">
-        <h2>CAPÍTULO 2 — Controle Financeiro</h2>
-        <p class="editable" contenteditable="true">
-          Todo dinheiro que entra e sai precisa ser anotado. Controle é poder.
-        </p>
-      </div>
+<script>
+const TOTAL = 365;
+let atual = 1;
+let dados = JSON.parse(localStorage.getItem("cap10")) || {};
 
-      <div class="chapter">
-        <h2>CAPÍTULO 3 — Separação de Dinheiro</h2>
-        <p class="editable" contenteditable="true">
-          Dinheiro de gastos nunca se mistura com dinheiro de investimento.
-        </p>
-      </div>
+function render(){
+  const container = document.getElementById("pagina");
+  container.innerHTML = "";
 
-      <div class="chapter">
-        <h2>CAPÍTULO 4 — Mentalidade</h2>
-        <p class="editable" contenteditable="true">
-          Quem não respeita pouco, nunca segura muito.
-        </p>
-      </div>
+  const page = document.createElement("div");
+  page.className = "page " + (atual % 2 === 0 ? "even" : "odd");
 
-      <div class="chapter">
-        <h2>CAPÍTULO 5 — Criando Ativos</h2>
-        <p class="editable" contenteditable="true">
-          Ativos são tudo que coloca dinheiro no seu bolso, mesmo quando você dorme.
-        </p>
-      </div>
+  const title = document.createElement("div");
+  title.className = "page-title";
+  title.innerText = "Página " + atual + " / 365";
 
-      <div class="chapter">
-        <h2>CAPÍTULO 6 — Trader e Risco</h2>
-        <p class="editable" contenteditable="true">
-          Trader não é aposta. É gestão de risco, disciplina e controle emocional.
-        </p>
-      </div>
+  const lista = document.createElement("ol");
+  lista.contentEditable = true;
+  lista.innerHTML = dados[atual] || "<li>Escreva aqui...</li>";
 
-      <div class="chapter">
-        <h2>CAPÍTULO 7 — Plano Anual</h2>
-        <p class="editable" contenteditable="true">
-          300 reais por dia, 20 dias no mês, pode virar um projeto anual consistente.
-        </p>
-      </div>
+  lista.addEventListener("input", ()=>{
+    dados[atual] = lista.innerHTML;
+    salvar();
+  });
 
-      <div class="chapter">
-        <h2>CAPÍTULO 8 — Agenda Financeira</h2>
-        <p class="editable" contenteditable="true">
-          Planeje seus dias, semanas e meses. Dinheiro segue organização.
-        </p>
-      </div>
+  page.appendChild(title);
+  page.appendChild(lista);
+  container.appendChild(page);
+}
 
-      <div class="chapter">
-        <h2>CAPÍTULO 9 — Crescimento</h2>
-        <p class="editable" contenteditable="true">
-          Crescer devagar é mais seguro do que perder tudo rápido.
-        </p>
-      </div>
+function salvar(){
+  localStorage.setItem("cap10", JSON.stringify(dados));
+  localStorage.setItem("cap10_atual", atual);
+}
 
-      <div class="chapter">
-        <h2>CAPÍTULO 10 — Conclusão</h2>
-        <p class="editable" contenteditable="true">
-          Riqueza começa no controle.<br>
-          Depois vem o crescimento.<br>
-          Depois vem a liberdade.<br><br>
-          Quem domina o pouco, domina o muito.
-        </p>
-      </div>
+function proxima(){
+  if(atual < TOTAL){
+    atual++;
+    render();
+  }
+}
 
-    </div>
+function anterior(){
+  if(atual > 1){
+    atual--;
+    render();
+  }
+}
 
-    <button class="add" onclick="addParagraph()">+ Novo Parágrafo</button>
-    <button class="save" onclick="saveBook()">Salvar Livro</button>
-  </div>
+window.onload = ()=>{
+  const salvo = localStorage.getItem("cap10_atual");
+  if(salvo) atual = parseInt(salvo);
+  render();
+};
+</script>
 
-  <script>
-    function addParagraph() {
-      const p = document.createElement("p");
-      p.className = "editable";
-      p.contentEditable = "true";
-      p.innerText = "Novo parágrafo...";
-      document.getElementById("book").appendChild(p);
-    }
-
-    function saveBook() {
-      localStorage.setItem("livro_financas", document.getElementById("book").innerHTML);
-      alert("Livro salvo com sucesso!");
-    }
-
-    window.onload = function () {
-      const saved = localStorage.getItem("livro_financas");
-      if (saved) {
-        document.getElementById("book").innerHTML = saved;
-      }
-    }
-  </script>
 </body>
 </html>
 
