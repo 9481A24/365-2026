@@ -1,1 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>DINHEIRO DO ZERO — Livro Interativo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 8px;
+    }
+    h1, h2, h3 {
+      color: #222;
+    }
+    .editable {
+      border: 1px dashed #ccc;
+      padding: 10px;
+      margin: 10px 0;
+      min-height: 40px;
+    }
+    button {
+      padding: 10px 16px;
+      margin: 10px 5px 0 0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .save {
+      background: #2ecc71;
+      color: #fff;
+    }
+    .add {
+      background: #3498db;
+      color: #fff;
+    }
+    .chapter {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DINHEIRO DO ZERO</h1>
+    <h3>Guia simples para o homem que quer sair do aperto e criar base financeira</h3>
+
+    <p class="editable" contenteditable="true">
+      Autor: IA (feito para você)<br>
+      Nível: Início absoluto (0)<br>
+      Objetivo: organizar a vida financeira antes de investir
+    </p>
+
+    <div id="book">
+
+      <div class="chapter">
+        <h2>CAPÍTULO 1 — Começando do Zero</h2>
+        <p class="editable" contenteditable="true">
+          Aqui começa sua jornada financeira. Mesmo sem dinheiro, você já tem o mais importante: decisão.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 2 — Controle Financeiro</h2>
+        <p class="editable" contenteditable="true">
+          Todo dinheiro que entra e sai precisa ser anotado. Controle é poder.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 3 — Separação de Dinheiro</h2>
+        <p class="editable" contenteditable="true">
+          Dinheiro de gastos nunca se mistura com dinheiro de investimento.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 4 — Mentalidade</h2>
+        <p class="editable" contenteditable="true">
+          Quem não respeita pouco, nunca segura muito.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 5 — Criando Ativos</h2>
+        <p class="editable" contenteditable="true">
+          Ativos são tudo que coloca dinheiro no seu bolso, mesmo quando você dorme.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 6 — Trader e Risco</h2>
+        <p class="editable" contenteditable="true">
+          Trader não é aposta. É gestão de risco, disciplina e controle emocional.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 7 — Plano Anual</h2>
+        <p class="editable" contenteditable="true">
+          300 reais por dia, 20 dias no mês, pode virar um projeto anual consistente.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 8 — Agenda Financeira</h2>
+        <p class="editable" contenteditable="true">
+          Planeje seus dias, semanas e meses. Dinheiro segue organização.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 9 — Crescimento</h2>
+        <p class="editable" contenteditable="true">
+          Crescer devagar é mais seguro do que perder tudo rápido.
+        </p>
+      </div>
+
+      <div class="chapter">
+        <h2>CAPÍTULO 10 — Conclusão</h2>
+        <p class="editable" contenteditable="true">
+          Riqueza começa no controle.<br>
+          Depois vem o crescimento.<br>
+          Depois vem a liberdade.<br><br>
+          Quem domina o pouco, domina o muito.
+        </p>
+      </div>
+
+    </div>
+
+    <button class="add" onclick="addParagraph()">+ Novo Parágrafo</button>
+    <button class="save" onclick="saveBook()">Salvar Livro</button>
+  </div>
+
+  <script>
+    function addParagraph() {
+      const p = document.createElement("p");
+      p.className = "editable";
+      p.contentEditable = "true";
+      p.innerText = "Novo parágrafo...";
+      document.getElementById("book").appendChild(p);
+    }
+
+    function saveBook() {
+      localStorage.setItem("livro_financas", document.getElementById("book").innerHTML);
+      alert("Livro salvo com sucesso!");
+    }
+
+    window.onload = function () {
+      const saved = localStorage.getItem("livro_financas");
+      if (saved) {
+        document.getElementById("book").innerHTML = saved;
+      }
+    }
+  </script>
+</body>
+</html>
 
